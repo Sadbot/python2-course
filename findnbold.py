@@ -1,8 +1,7 @@
 #!/usr/bin/python
 
 import sys
-import os
-import re
+import chardet
 
 """There are 2 files - file_with_text and file_dictionary
 file_with_text have text with default delimiters(\s)
@@ -15,28 +14,31 @@ def bold_word(word):
     return "<b>" + word + "</b>"
 
 
-def update_text(searched_dict, text_file):
+def update_text(searched_set, text_file):
     """Create an html file with text in which every word that in dictionary is bold
 
-    :param searched_dict:
+    :param searched_set:
     :param text_file:
     :return:
     """
-    index = file('index.html', 'w')
-    index.write('<html><body>\n')
-
+    index = open('index.html', 'w')
     f = open(text_file)
 
-    for line in f:
-        # Split every line in file to list and
-        # replace each element which in searched_dict in bold
-        replaced_line = (bold_word(el) if el in searched_dict else el for el in line.split(' '))
+    try:
+        index.write('<html><head><meta charset="utf-8"/></head><body>\n')
 
-        # Trim list to line with space separation and add <br/> to the end
-        index.write(' '.join(replaced_line) + "<br/>")
+        for line in f:
+            # Split every line in file to list and
+            # replace each element which in searched_set in bold
+            replaced_line = (bold_word(el) if el in searched_set else el for el in line.split(' '))
 
-    index.write('\n</body></html>\n')
-    index.close()
+            # Trim list to line with space separation and add <br/> to the end
+            index.write(' '.join(replaced_line) + "<br/>")
+
+        index.write('\n</body></html>\n')
+    finally:
+        index.close()
+        f.close()
 
 
 def main():
@@ -53,9 +55,14 @@ def main():
     dict_file = args[0]
     filename = args[1]
 
-    searched_dict = set(word.strip() for word in open(dict_file))
+    searched_set = set()
+    file = open(dict_file)
+    for word in file:
+        enc = chardet.detect(word)
+        enc_word = word.decode(enc['encoding'])
+        searched_set.add(enc_word.strip())
 
-    update_text(searched_dict, filename)
+    update_text(searched_set, filename)
 
 
 if __name__ == '__main__':
