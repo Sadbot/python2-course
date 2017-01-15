@@ -1,16 +1,16 @@
-tested with python v. 2.7
+**Курсы python2**
+Запустить из командной строки
 
-Initialization
-==============
-Run from command-line
-
+ pip install -R requirements.txt
  python findnbold.py dictionary_filename text_filename
 
-where dictionary_filename is file name with words on every line
-and text_filename is file name with searched text
+где dictionary_filename - название файла_с_текстом, содержащее текст в виде последовательностей текстовых строк,
+разделенных стандартным разделителем строки.
+И text_filename - название Файла_словаря, содержащее произвольное количество строк, каждая из которых содержит ровно
+одно слово.
 
-Working example:
+Рабочий пример:
 
 python findnbold.py dict1.txt test.txt
 
-After running this command index.html file is created in current directory with executed task
+После запуска команды в корневой директории создастся index.html файл с выполненным заданием.
