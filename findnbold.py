@@ -1,10 +1,9 @@
 #!/usr/bin/python
-#
 # -*- coding: utf-8 -*-
 
 from __future__ import print_function
 from io import open
-# import re
+import re
 import sys
 
 """There are 2 files - file_with_text and file_dictionary
@@ -13,7 +12,7 @@ file_dictionary contains an arbitrary number of lines, each containing exactly o
 """
 
 
-def update_text(searched_set, text_fname, update_func):
+def update_text(searched_set, text_fname):
     """Create an html file with text in which every word that is searched updating
 
     :param searched_set: Set of searched words
@@ -27,8 +26,8 @@ def update_text(searched_set, text_fname, update_func):
             replaced_line = ''
 
             for word in searched_set:
-                # replaced_line = re.sub("\\b" + word + "\\b", update_func(word), line)
-                replaced_line = line.replace(word, update_func(word))
+                replaced_line = re.sub(ur"[^а-яА-Я](" + word + ur")[^а-яА-Я]", update, line)
+                # replaced_line = line.replace(word, update_func(word))
 
             index.write(replaced_line + '<br/>')
 
@@ -50,9 +49,10 @@ def read_set(dict_fname):
     return searched_set
 
 
-def bold_word(word):
+def update(matchobj):
     """Replace word with bolded html alternative"""
-    return "<b>" + word + "</b>"
+    line = matchobj.group(0)
+    return line.replace(matchobj.group(1), u'<b>' + matchobj.group(1) + u'</b>')
 
 
 def main():
@@ -72,7 +72,7 @@ def main():
 
     searched_set = read_set(dict_fname)
     if searched_set:
-        update_text(searched_set, text_fname, bold_word)
+        update_text(searched_set, text_fname)
     else:
         print('No searched words')
 
