@@ -1,7 +1,6 @@
-**Курсы python2**
+**Курсы python**
 Запустить из командной строки
 
- pip install -R requirements.txt
  python findnbold.py dictionary_filename text_filename
 
 где dictionary_filename - название файла_с_текстом, содержащее текст в виде последовательностей текстовых строк,

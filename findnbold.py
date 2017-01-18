@@ -1,13 +1,13 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import re
-import sys
-
 """There are 2 files - file_with_text and file_dictionary
 file_with_text have text with default delimiters(\s)
 file_dictionary contains an arbitrary number of lines, each containing exactly one word.
 """
+
+import re
+import sys
 
 
 def update_text(searched_set, text_fname):
@@ -17,10 +17,10 @@ def update_text(searched_set, text_fname):
     :param text_fname: File name of file with text for replace
     :return: returns nothing
     """
-    with open(text_fname) as f, open('index.html', 'w', encoding='utf-8') as index:
+    with open(text_fname) as text_file, open('index.html', 'w', encoding='utf-8') as index:
         index.write('<html><head><meta charset="utf-8"/></head><body>\n')
 
-        for line in f:
+        for line in text_file:
             replaced_line = ''
             for word in searched_set:
                 regex = re.compile(r'\b' + word + r'\b', re.UNICODE)
@@ -44,10 +44,11 @@ def read_set(dict_fname):
 
 
 def main():
+    """Main function"""
     args = sys.argv[1:]
 
     if not args[0] or not args[1]:
-        print('usage: dictionary_file text_file ')
+        print('usage: dictionary_file text_file')
         sys.exit(1)
 
     dict_fname = args[0]
