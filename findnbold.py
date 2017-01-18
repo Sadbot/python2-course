@@ -21,11 +21,10 @@ def update_text(searched_set, text_fname):
         index.write('<html><head><meta charset="utf-8"/></head><body>\n')
 
         for line in text_file:
-            replaced_line = ''
             for word in searched_set:
-                regex = re.compile(r'\b' + word + r'\b', re.UNICODE)
-                replaced_line = regex.sub('<b>' + word + '</b>', line)
-            index.write(replaced_line + '<br/>')
+                regex = re.compile(r'\b' + word + r'\b', re.U)
+                line = regex.sub('<b>' + word + '</b>', line)
+            index.write(line + '<br/>')
 
         index.write('\n</body></html>')
 
